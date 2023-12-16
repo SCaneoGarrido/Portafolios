@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append("file", fileInput.files[0]);
         formData.append("directory", currentPath.join('/'));
 
-        fetch('http://192.168.100.5:3000/uploadFile', {
+        fetch('http://localhost:3000/uploadFile', {
             method: 'POST',
             body: formData
         })
