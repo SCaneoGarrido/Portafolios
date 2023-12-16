@@ -15,7 +15,6 @@ Características principales:
 - Navegación entre directorios y visualización de su contenido.
 - Creación de nuevos directorios.
 
-(Te recomiendo incluir un enlace al proyecto si está hospedado en vivo o tiene una página de demostración.)
 
 ## Tecnologías
 
