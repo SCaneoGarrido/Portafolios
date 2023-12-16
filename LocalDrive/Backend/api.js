@@ -193,6 +193,6 @@ app.delete('/deleteFile/*', (req, res) => {
 
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Arrancando API en http://192.168.100.5:${PORT}`);
+    console.log(`Arrancando API en http://localhost:${PORT}`);
 
 })
