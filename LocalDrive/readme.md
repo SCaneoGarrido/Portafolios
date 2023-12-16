@@ -7,7 +7,7 @@ Local Cloud Drive es una aplicación de almacenamiento en la nube personal que p
 ## Descargar nodejs https://nodejs.org/en
 
 # Para el funcionamiento de red local en casa
-reemplaze cada localhost en el archivo script.js con la ip del equipo que será de servidor.
+reemplace cada localhost en el archivo script.js con la ip del equipo que será de servidor.
 
 ## Características
 
