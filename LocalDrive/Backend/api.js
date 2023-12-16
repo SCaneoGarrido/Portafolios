@@ -4,7 +4,6 @@ const fileUpload = require('express-fileupload')
 const fs = require('fs');
 const path = require('path');
 const archiver = require('archiver');
-const { arch } = require('os');
 const PORT = 3000;
 const app = express();
 
