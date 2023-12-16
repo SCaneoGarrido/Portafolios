@@ -4,6 +4,8 @@
 
 Local Cloud Drive es una aplicación de almacenamiento en la nube personal que permite a los usuarios gestionar archivos y directorios en un servidor local. Ofrece funcionalidades para subir, descargar, eliminar archivos, así como crear y eliminar directorios.
 
+## Descargar nodejs https://nodejs.org/en
+
 ## Características
 
 - Subida de archivos al servidor local.
