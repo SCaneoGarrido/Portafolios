@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title> Local Drive </title>
+  <meta charset='UTF-8'>
+
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="shortcut icon" href="./img/DALL·E 2023-12-15 11.04.05 cloud.png" type="image/x-icon" />
+
+</head>
+
+<body>
+  <h1> Local Cloud Drive </h1>
+  <main>
+    <button id="back-button" onclick="goBack()">Atrás</button>
+
+
+    <div class='form-container'>
+      <form id=files-form enctype='multipart/form-data'>
+        <input type="file" name="file" id='file-input'>
+        <button type="submit" id="upload-btn"> Subir Archivo </button>
+      </form>
+      <div id='message'>
+        <!-- mensaje de respuesta de API -->
+      </div>
+    </div>
+
+    <button id='create-dir-button'> Crear Nueva Carpeta </button>
+    <div id='new-dir-form' style='display:none;'>
+      <input type="text" name="" id='new-dir-name' placeholder='Nombre De la carpeta'>
+      <button type='submit' id='submit-dir'> Aceptar </button>
+    </div>
+    <hr>
+
+    <h3> Directorios </h3>
+
+    <section class='folder-list'>
+
+      <!-- Seccion De carga De directorios-->
+    </section>
+  </main>
+</body>
+<script src='script.js'>
+</script>
+
+</html>

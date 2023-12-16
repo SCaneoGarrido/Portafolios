@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+input[type="file"] {
+    margin: 10px 0;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#message {
+    margin-top: 20px;
+}
+
+/* lista de directorios */
+.folder-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.file-container {
+    transition: 0.3s;
+    margin: 10px;
+    padding: 10px;
+    
+}
+
+.file-container:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.download-link,
+.delete-link {
+    padding: 8px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.download-link {
+    background-color: #007bff;
+    color: white;
+}
+
+.download-link:hover {
+    background-color: #22d933;
+    color: white;
+}
+
+.delete-link {
+    background-color: #f0f8ff;
+    color: black;
+}
+
+.delete-link:hover {
+    background-color: red;
+    color: white;
+}
+
+/* Media queries para dispositivos móviles */
+@media screen and (max-width: 600px) {
+    body {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .folder-list {
+        grid-template-columns: 1fr;
+        /* Una sola columna en dispositivos móviles */
+    }
+
+    button,
+    .download-link,
+    .delete-link {
+        padding: 12px 18px;
+        /* Botones más grandes para facilitar la interacción táctil */
+        font-size: 16px;
+    }
+
+    .file-container {
+        margin: 5px;
+        padding: 8px;
+    }
+}
