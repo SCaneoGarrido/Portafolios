@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(fileUpload());
 app.use(cors());
+app.use(express.text());
 app.use(express.static(path.join(__dirname, '../FrontEnd')));
 
 
@@ -37,6 +38,11 @@ app.delete('/deleteDir/*', endpoints.deleteDir);
 // eliminar archivo
 app.delete('/deleteFile/*', endpoints.deleteFile);
 
+// leer archivos de texto
+app.get('/readFile/:fileName', endpoints.readFile);
+
+// escribir archivo
+app.post('/writeFile/:fileName', endpoints.writeFile);
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Arrancando API en http://192.168.100.5:${PORT}`);

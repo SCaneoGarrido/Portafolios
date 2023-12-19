@@ -1,31 +1,91 @@
+/* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+    font-family: 'Kanit', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    line-height: 1.6;
+    margin: 0;
     padding: 20px;
+    text-align: center;
 }
 
-input[type="file"] {
-    margin: 10px 0;
+h1,
+h3 {
+    color: #fff;
 }
 
-button {
-    background-color: #4CAF50;
-    color: white;
+a {
+    color: #bb86fc;
+    text-decoration: none;
+}
+
+/* Contenedor para botones y formularios centrados */
+.centered-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Estilos de botones */
+button,
+.download-link,
+.delete-link {
+    background-color: #bb86fc;
+    color: #121212;
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 8px;
 }
 
-button:hover {
-    background-color: #45a049;
+button:last-child,
+.delete-link {
+    margin-right: 0;
 }
 
-#message {
-    margin-top: 20px;
+button:hover,
+.download-link:hover,
+.delete-link:hover {
+    background-color: #3700b3;
+    color: white;
 }
 
-/* lista de directorios */
+.delete-link {
+    background-color: #cf6679;
+}
+
+.delete-link:hover {
+    background-color: #b00020;
+}
+
+/* Estilos para formularios */
+.form-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-container form {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+input[type="file"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+/* Estilos para la lista de archivos */
 .folder-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -33,70 +93,45 @@ button:hover {
 }
 
 .file-container {
-    transition: 0.3s;
-    margin: 10px;
+    background: #252525;
+    border-radius: 8px;
     padding: 10px;
-    
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .file-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
     cursor: pointer;
-    transform: scale(1.1);
 }
 
 .download-link,
 .delete-link {
-    padding: 8px;
-    margin: 5px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    text-align: center;
-    transition: background-color 0.3s;
+    margin: 10px;
 }
 
-.download-link {
-    background-color: #007bff;
-    color: white;
+/* Media Queries */
+@media screen and (max-width: 768px) {
+    .folder-list {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
 }
 
-.download-link:hover {
-    background-color: #22d933;
-    color: white;
-}
-
-.delete-link {
-    background-color: #f0f8ff;
-    color: black;
-}
-
-.delete-link:hover {
-    background-color: red;
-    color: white;
-}
-
-/* Media queries para dispositivos móviles */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 480px) {
     body {
         padding: 10px;
-        font-size: 14px;
     }
 
     .folder-list {
         grid-template-columns: 1fr;
-        /* Una sola columna en dispositivos móviles */
     }
 
     button,
     .download-link,
     .delete-link {
         padding: 12px 18px;
-        /* Botones más grandes para facilitar la interacción táctil */
+        margin: 10px;
         font-size: 16px;
-    }
-
-    .file-container {
-        margin: 5px;
-        padding: 8px;
     }
 }

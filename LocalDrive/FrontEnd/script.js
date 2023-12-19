@@ -1,4 +1,5 @@
 const content = document.querySelector('.folder-list');
+let currentFileName = null;
 var currentPath = [];
 
 // obtener los elementos desde la API
@@ -76,7 +77,16 @@ function createFileCard(file) {
 
     if (file.type === 'file') {
         fileImage.src = './img/archivo.png';
-
+        if (file.name.endsWith('.txt')) {
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Editar';
+            editBtn.classList.add('edit-link');
+            editBtn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                cargarArchivoParaEditar(`${currentPath.join('/')}/${file.name}`);
+            });
+            fileFront.appendChild(editBtn);
+        }
         const downloadLink = document.createElement('a');
         const fullPathToFile = `${currentPath.join('/')}/${file.name}`;
         downloadLink.href = `http://localhost:3000/download/${encodeURIComponent(fullPathToFile)}`;
@@ -186,6 +196,51 @@ function goBack() {
     }
 }
 
+function mostrarEditor() {
+    document.getElementById('editor-container').style.display = 'block';
+}
+
+function cancelarEdicion() {
+
+    document.getElementById('editor').value = '';
+    document.getElementById('editor-container').style.display = 'none';
+}
+
+
+function cargarArchivoParaEditar(filePath) {
+    currentFileName = filePath;
+    fetch(`http://localhost:3000/readFile/${encodeURIComponent(filePath)}`)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('editor').value = data;
+            mostrarEditor();
+        })
+        .catch(error => console.error('Error: ', error));
+}
+
+function guardarCambios() {
+    const updatedContent = document.getElementById('editor').value;
+
+    if (!currentFileName) {
+        alert('No hay archivo seleccionado');
+        return;
+    }
+
+    fetch(`http://localhost:3000/writeFile/${encodeURIComponent(currentFileName)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: updatedContent
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('Archivo guardado');
+                cancelarEdicion();
+            } else {
+                alert('Error al guardar el archivo');
+            }
+        })
+        .catch(error => console.error('Error: ', error));
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {

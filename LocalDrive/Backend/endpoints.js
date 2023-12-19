@@ -170,6 +170,32 @@ const endpoints = {
         });
     }, // deleteFile
 
+    readFile: (req, res) => {
+        const fileName = req.params.fileName;
+        const filePath = path.join(__dirname, '../Files', fileName);
+
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            if (err) {
+                res.status(500).send('Error al leer el archivo');
+            } else {
+                res.status(200).send(data);
+            }
+        });
+    }, // readFile
+
+    writeFile: (req, res) => {
+        const fileName = req.params.fileName;
+        const filePath = path.join(__dirname, '../Files', fileName);
+
+        fs.writeFile(filePath, req.body, 'utf8', err => {
+            if (err) {
+                res.status(500).send('Error al escribir en el archivo');
+            } else {
+                res.status(200).send('Archivo actualizado');
+            }
+        });
+    }, // writeFile
+
 } // Enpoints
 
 module.exports = endpoints;
