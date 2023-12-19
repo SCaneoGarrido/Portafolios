@@ -5,7 +5,7 @@
 -  Edición de documentos word.
 -  Mejora Del Estilo de interfaz.
 -  Subida de múltiples archivos (actualmente se puede subir uno a la vez) y Subir carpetas.
--  
+  
 ## Funcionalidades añadidas:
 - Edicion de archivos de textos ".txt"
 - Interfaz oscura y mejora de botones en los archivos, botones de edicion para archivos de texto
