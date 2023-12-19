@@ -1,5 +1,11 @@
 # Local Cloud Drive
 
+# Funcionalidades a implementar:
+-  Previsualización de documentos PDF e Imágenes.
+-  Edición de documentos de textos o documentos word.
+-  Mejora Del Estilo de interfaz.
+-  Subida de múltiples archivos (actualmente se puede subir uno a la vez) y Subir carpetas.
+
 ## Descripción
 
 Local Cloud Drive es una aplicación de almacenamiento en la nube personal que permite a los usuarios gestionar archivos y directorios en un servidor local. Ofrece funcionalidades para subir, descargar, eliminar archivos, así como crear y eliminar directorios.
