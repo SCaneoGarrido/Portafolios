@@ -24,7 +24,7 @@ Este proyecto utiliza tecnologías como [JavaScript/CSS/HTML/GIT], [/NodeJs/Expr
 Este proyecto es una pagina web para tener una biblioteca personal virtual, aun estoy desarrollando este proyecto por lo que muchas de las funcionalidades,
 deben realizarce mediante peticiones con Postman, las cuales pueden ser como subir la información de un libro o subir el propio libro en si.
 
-Características principales:
+Mejoras futuras:
 - Actualmente solo es posible visualizar y leer los libros.
 Proximas funcionalidades:
 - Poder subir un libro e informacion desde cualquier dispositivo sea tablet, móvil, laptop, etc
