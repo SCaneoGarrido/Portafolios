@@ -6,7 +6,7 @@ var currentPath = [];
 async function fetchFiles() {
     console.log("Ruta actual:", currentPath.join('/'));
     try {
-        const response = await fetch('http://192.168.100.5:3000/getFiles');
+        const response = await fetch('http://localhost:3000/getFiles');
         if (!response.ok) {
             throw new Error('Error al obtener contenido');
         }
@@ -23,7 +23,7 @@ async function fetchFiles() {
 // Cargar el contenido de un directorio
 function loadDirectoryContent(directoryPath) {
     console.log("Ruta actual:", directoryPath);
-    fetch(`http://192.168.100.5:3000/getDirectoryContent?name=${encodeURIComponent(directoryPath)}`)
+    fetch(`http://localhost:3000/getDirectoryContent?name=${encodeURIComponent(directoryPath)}`)
         .then(response => {
             if (!response.ok) {
                 if (response.status === 404) {
@@ -101,7 +101,7 @@ function createFileCard(file) {
         }
         const downloadLink = document.createElement('a');
         const fullPathToFile = `${currentPath.join('/')}/${file.name}`;
-        downloadLink.href = `http://192.168.100.5:3000/download/${encodeURIComponent(fullPathToFile)}`;
+        downloadLink.href = `http://localhost:3000/download/${encodeURIComponent(fullPathToFile)}`;
         downloadLink.textContent = 'Descargar';
         downloadLink.classList.add('download-link');
 
@@ -121,7 +121,7 @@ function createFileCard(file) {
             event.stopPropagation();
 
             if (confirm("¿Estás segurx que deseas eliminar este archivo?")) {
-                fetch(`http://192.168.100.5:3000/deleteFile/${encodeURIComponent(fullPathToFile)}`, {
+                fetch(`http://localhost:3000/deleteFile/${encodeURIComponent(fullPathToFile)}`, {
                     method: 'DELETE'
 
                 })
@@ -153,7 +153,7 @@ function createFileCard(file) {
                 const directoryToDelete = file.name;
 
                 if (confirm("¿Estás segurx que deseas eliminar esta carpeta y todo su contenido?")) {
-                    fetch(`http://192.168.100.5:3000/deleteDir/${encodeURIComponent(directoryToDelete)}`, {
+                    fetch(`http://localhost:3000/deleteDir/${encodeURIComponent(directoryToDelete)}`, {
                         method: 'DELETE'
                     })
                         .then(response => {
@@ -177,7 +177,7 @@ function createFileCard(file) {
         const downloadDirBtn = document.createElement('a');
         downloadDirBtn.textContent = 'Descargar';
         downloadDirBtn.classList.add('download-link');
-        downloadDirBtn.href = `http://192.168.100.5:3000/downloadDir/${encodeURIComponent(file.name)}`;
+        downloadDirBtn.href = `http://localhost:3000/downloadDir/${encodeURIComponent(file.name)}`;
         downloadDirBtn.addEventListener('click', (event) => event.stopPropagation());
         downloadDirBtn.setAttribute('download', '');
         downloadDirBtn.style.margin = '5px 0';
@@ -224,7 +224,7 @@ function cancelarEdicion() {
 // obtenie el pdf desde la api
 function cargarPdf(filePath) {
     currentFileName = filePath;
-    fetch(`http://192.168.100.5:3000/viewPdf/${encodeURIComponent(filePath)}`)
+    fetch(`http://localhost:3000/viewPdf/${encodeURIComponent(filePath)}`)
         .then(response => response.blob())
         .then(blob => {
             const url = window.URL.createObjectURL(blob);
@@ -236,7 +236,7 @@ function cargarPdf(filePath) {
 
 // funcion cargar archivos inclu CSS (Funcion larga)
 function cargarArchivoParaEditar(filePath) {
-    fetch(`http://192.168.100.5:3000/readFile/${encodeURIComponent(filePath)}`)
+    fetch(`http://localhost:3000/readFile/${encodeURIComponent(filePath)}`)
         .then(response => response.text())
         .then(data => {
             const editorWindow = window.open('', '_blank');
@@ -292,7 +292,7 @@ function cargarArchivoParaEditar(filePath) {
 
 // Guarda los cambios del archivo de txt
 function guardarCambios(filePath, updatedContent, editorWindow) {
-    fetch(`http://192.168.100.5:3000/writeFile/${encodeURIComponent(filePath)}`, {
+    fetch(`http://localhost:3000/writeFile/${encodeURIComponent(filePath)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
         body: updatedContent
@@ -332,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append("file", fileInput.files[0]);
         formData.append("directory", currentPath.join('/'));
 
-        fetch('http://192.168.100.5:3000/uploadFile', {
+        fetch('http://localhost:3000/uploadFile', {
             method: 'POST',
             body: formData
         })
@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         const dirName = document.getElementById('new-dir-name').value;
 
-        fetch('http://192.168.100.5:3000/createDir', {
+        fetch('http://localhost:3000/createDir', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: dirName, directory: currentPath.join('/') })
