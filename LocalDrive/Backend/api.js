@@ -47,7 +47,9 @@ app.post('/writeFile/:fileName', endpoints.writeFile);
 // vista previa PDF
 app.get('/viewPdf/:filename', endpoints.viewPdf);
 
+// obtener imagenes
+app.get('/getImage/:path', endpoints.getImage);
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Arrancando API en http://localhost:${PORT}`);
+    console.log(`Arrancando API en http://192.168.100.5:${PORT}`);
 
 })

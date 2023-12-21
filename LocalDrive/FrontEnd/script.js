@@ -1,7 +1,7 @@
 const content = document.querySelector('.folder-list');
 let currentFileName = null;
 var currentPath = [];
-
+// ============================== FUNCIONES ===================================== //
 // obtener los elementos desde la API
 async function fetchFiles() {
     console.log("Ruta actual:", currentPath.join('/'));
@@ -58,6 +58,122 @@ function loadDirectory(dirName) {
     }
     loadDirectoryContent(currentPath.join('/'));
 }
+
+// ir un directorio atras
+function goBack() {
+    if (currentPath.length > 0) {
+        currentPath.pop(); // Elimina el último elemento de currentPath
+        const newPath = currentPath.join('/');
+        loadDirectoryContent(newPath);
+    }
+}
+
+// muestra el editor de texto
+function mostrarEditor() {
+    document.getElementById('editor-container').style.display = 'block';
+}
+
+// cancela la edicion del archivo de txt
+function cancelarEdicion() {
+
+    document.getElementById('editor').value = '';
+    document.getElementById('editor-container').style.display = 'none';
+}
+
+
+// obtenie el pdf desde la api
+function cargarPdf(filePath) {
+    currentFileName = filePath;
+    fetch(`http://localhost:3000/viewPdf/${encodeURIComponent(filePath)}`)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        })
+        .catch(error => console.error('Error al obtener PDF; ', error));
+}
+
+
+// funcion cargar archivos inclu CSS (Funcion larga)
+function cargarArchivoParaEditar(filePath) {
+    fetch(`http://localhost:3000/readFile/${encodeURIComponent(filePath)}`)
+        .then(response => response.text())
+        .then(data => {
+            const editorWindow = window.open('', '_blank');
+            if (editorWindow) {
+                editorWindow.document.write(`
+                    <html>
+                    <head>
+                        <title>Editor</title>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {
+                                background-color: #1e1e1e;
+                                color: #f5f5f5;
+                                font-family: Arial, sans-serif;
+                                margin: 0;
+                                padding: 20px;
+                            }
+                            textarea {
+                                width: 100%;
+                                height: 80vh;
+                                background-color: #333;
+                                color: #fff;
+                                border: none;
+                                padding: 10px;
+                                border-radius: 4px;
+                                font-family: monospace;
+                            }
+                            button {
+                                background-color: #4CAF50;
+                                color: white;
+                                padding: 10px 15px;
+                                border: none;
+                                border-radius: 4px;
+                                cursor: pointer;
+                                margin-top: 10px;
+                            }
+                            button:hover {
+                                background-color: #45a049;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <textarea id="editor">${data}</textarea>
+                        <button onclick="window.opener.guardarCambios('${filePath}', document.getElementById('editor').value, window)">Guardar Cambios</button>
+                        <button onclick="window.close()">Cancelar</button>
+                    </body>
+                    </html>
+                `);
+            }
+        })
+        .catch(error => console.error('Error: ', error));
+}
+
+
+// Guarda los cambios del archivo de txt
+function guardarCambios(filePath, updatedContent, editorWindow) {
+    fetch(`http://localhost:3000/writeFile/${encodeURIComponent(filePath)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: updatedContent
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('Archivo guardado');
+                editorWindow.close(); // Cierra la ventana de edición
+            } else {
+                alert('Error al guardar el archivo');
+            }
+        })
+        .catch(error => {
+            console.error('Error: ', error);
+            alert('Error al guardar el archivo');
+        });
+}
+
+
+
 // Crear el contenido dinámico de los archivos y directorios
 function createFileCard(file) {
     const fileContainer = document.createElement('div');
@@ -74,9 +190,12 @@ function createFileCard(file) {
     fileFront.style.justifyContent = 'center';
 
     const fileImage = document.createElement('img');
-
+    const imageHeight = '100px';
+    const imageWidth = '100px';
     if (file.type === 'file') {
         fileImage.src = './img/archivo.png';
+
+        // condicion si el archivo es un txt (para edicion)
         if (file.name.endsWith('.txt')) {
             const editBtn = document.createElement('button');
             editBtn.textContent = 'Editar';
@@ -88,6 +207,7 @@ function createFileCard(file) {
             fileFront.appendChild(editBtn);
         }
 
+        // condicion si el archivo es un pdf (para visualzacion)
         if (file.name.endsWith('.pdf')) {
             const toPdf = document.createElement('button');
             toPdf.textContent = 'Ver';
@@ -98,6 +218,14 @@ function createFileCard(file) {
             })
 
             fileFront.appendChild(toPdf);
+        }
+
+        // condicion si el archivo es una imagen para visualizacion 
+        if (file.name.endsWith('.jpg') || file.name.endsWith('.png')) {
+            const imagePath = `${currentPath.join('/')}/${file.name}`;
+            fileImage.src = `http://localhost:3000/getImage/${encodeURIComponent(imagePath)}`;
+            fileImage.style.height = imageHeight;
+            fileImage.style.width = imageWidth;
         }
         const downloadLink = document.createElement('a');
         const fullPathToFile = `${currentPath.join('/')}/${file.name}`;
@@ -198,120 +326,7 @@ function createFileCard(file) {
 
     return fileContainer;
 }
-
-// ir un directorio atras
-function goBack() {
-    if (currentPath.length > 0) {
-        currentPath.pop(); // Elimina el último elemento de currentPath
-        const newPath = currentPath.join('/');
-        loadDirectoryContent(newPath);
-    }
-}
-
-// muestra el editor de texto
-function mostrarEditor() {
-    document.getElementById('editor-container').style.display = 'block';
-}
-
-// cancela la edicion del archivo de txt
-function cancelarEdicion() {
-
-    document.getElementById('editor').value = '';
-    document.getElementById('editor-container').style.display = 'none';
-}
-
-
-// obtenie el pdf desde la api
-function cargarPdf(filePath) {
-    currentFileName = filePath;
-    fetch(`http://localhost:3000/viewPdf/${encodeURIComponent(filePath)}`)
-        .then(response => response.blob())
-        .then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            window.open(url, '_blank');
-        })
-        .catch(error => console.error('Error al obtener PDF; ', error));
-}
-
-
-// funcion cargar archivos inclu CSS (Funcion larga)
-function cargarArchivoParaEditar(filePath) {
-    fetch(`http://localhost:3000/readFile/${encodeURIComponent(filePath)}`)
-        .then(response => response.text())
-        .then(data => {
-            const editorWindow = window.open('', '_blank');
-            if (editorWindow) {
-                editorWindow.document.write(`
-                    <html>
-                    <head>
-                        <title>Editor</title>
-                        <style>
-                            body {
-                                background-color: #1e1e1e;
-                                color: #f5f5f5;
-                                font-family: Arial, sans-serif;
-                                margin: 0;
-                                padding: 20px;
-                            }
-                            textarea {
-                                width: 100%;
-                                height: 80vh;
-                                background-color: #333;
-                                color: #fff;
-                                border: none;
-                                padding: 10px;
-                                border-radius: 4px;
-                                font-family: monospace;
-                            }
-                            button {
-                                background-color: #4CAF50;
-                                color: white;
-                                padding: 10px 15px;
-                                border: none;
-                                border-radius: 4px;
-                                cursor: pointer;
-                                margin-top: 10px;
-                            }
-                            button:hover {
-                                background-color: #45a049;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <textarea id="editor">${data}</textarea>
-                        <button onclick="window.opener.guardarCambios('${filePath}', document.getElementById('editor').value, window)">Guardar Cambios</button>
-                        <button onclick="window.close()">Cancelar</button>
-                    </body>
-                    </html>
-                `);
-            }
-        })
-        .catch(error => console.error('Error: ', error));
-}
-
-
-// Guarda los cambios del archivo de txt
-function guardarCambios(filePath, updatedContent, editorWindow) {
-    fetch(`http://localhost:3000/writeFile/${encodeURIComponent(filePath)}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: updatedContent
-    })
-        .then(response => {
-            if (response.ok) {
-                alert('Archivo guardado');
-                editorWindow.close(); // Cierra la ventana de edición
-            } else {
-                alert('Error al guardar el archivo');
-            }
-        })
-        .catch(error => {
-            console.error('Error: ', error);
-            alert('Error al guardar el archivo');
-        });
-}
-
-
+// ================================================================================== // 
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -327,9 +342,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('files-form');
     form.addEventListener('submit', (event) => {
         event.preventDefault();
+
         const formData = new FormData();
         const fileInput = document.getElementById('file-input');
-        formData.append("file", fileInput.files[0]);
+
+        // Iterar sobre todos los archivos seleccionados y añadirlos a formData
+        for (let i = 0; i < fileInput.files.length; i++) {
+            formData.append("files[]", fileInput.files[i]);
+        }
+
         formData.append("directory", currentPath.join('/'));
 
         fetch('http://localhost:3000/uploadFile', {
@@ -338,13 +359,12 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('message').innerText = 'Archivo subido con éxito: ' + data.message;
+                document.getElementById('message').innerText = 'Archivos subidos con éxito: ' + data.message;
                 localStorage.setItem('currentPath', currentPath.join('/'));
                 location.reload();
-                //localStorage.clear('currentPath')
             })
             .catch(error => {
-                document.getElementById('message').innerText = 'Error al subir el archivo: ' + error;
+                document.getElementById('message').innerText = 'Error al subir archivos: ' + error;
             });
     });
 

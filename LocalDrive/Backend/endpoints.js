@@ -53,16 +53,43 @@ const endpoints = {
     }, // getFiles
 
     uploadFile: (req, res) => {
-        console.log(req.files.file);
+        console.log(req.files['files[]']);
         console.log(req.body);
-        let file = req.files.file;
-        let directory = req.body.directory || '';
-        file.mv(path.join(__dirname, `../Files/${directory}/${file.name}`), err => {
-            if (err) return res.status(500).send({ message: err });
-            return res.status(200).send({ message: 'Archivo cargado' });
-        });
-    }, // uploadFile
 
+        let files = req.files['files[]'];
+        let directory = req.body.directory || '';
+
+        if (!files) {
+            return res.status(400).send({ message: 'No se enviaron archivos.' });
+        }
+
+        if (!Array.isArray(files)) {
+            files = [files];
+        }
+
+        let uploadPromises = files.map(file => {
+            return new Promise((resolve, reject) => {
+                let fullPath = path.join(__dirname, `../Files/${directory}`, file.name);
+
+                file.mv(fullPath, err => {
+                    if (err) {
+                        console.error("Error al mover el archivo:", err);
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                });
+            });
+        });
+
+        Promise.all(uploadPromises)
+            .then(() => {
+                res.status(200).send({ message: 'Archivos cargados con éxito' });
+            })
+            .catch(err => {
+                res.status(500).send({ message: 'Error al cargar archivos', error: err });
+            });
+    },
     createDir: (req, res) => {
         let dirName = req.body.name;
         let parentDirectory = req.body.directory;
@@ -211,6 +238,18 @@ const endpoints = {
             }
         })
     }, // viewPdf
+
+    getImage: (req, res) => {
+        const imagePath = req.params.path;
+        const fullPath = path.join(__dirname, '../Files', imagePath);
+
+        if (fs.existsSync(fullPath)) {
+            res.sendFile(fullPath);
+            console.log("Imagen: ", fullPath);
+        } else {
+            res.status(404).send('Imagen no encontrada');
+        }
+    }
 } // Enpoints
 
 module.exports = endpoints;
