@@ -1,6 +1,3 @@
-Crear una documentación efectiva para tu proyecto es esencial para entender su estructura y funcionamiento, tanto para ti en el futuro como para otros posibles colaboradores. Aquí tienes una plantilla básica de documentación que puedes expandir y ajustar según las necesidades de tu proyecto:
-
----
 
 # Local Cloud Drive
 
@@ -17,6 +14,13 @@ Local Cloud Drive es una aplicación de almacenamiento en la nube personal que p
 - Navegación entre directorios y visualización de su contenido.
 - Interfaz de usuario web para la gestión de archivos.
 
+## Funcionalidades Futuras:
+-  Edición de documentos office (word, pdf, etc)
+-  Mejora de interfaz para dispositivos móviles.
+ 
+## Funcionalidades añadidas:
+- Edición de archivos de texto
+- Visualización de archivos PDF ( aun no esta optimizado para dispositivos móviles )
 ## Tecnologías Utilizadas
 
 - **Frontend**: HTML, CSS, JavaScript.
@@ -48,7 +52,7 @@ Instrucciones para instalar y ejecutar el proyecto:
 
 1. Clona el repositorio en tu máquina local.
 2. Navega a la carpeta del proyecto desde la terminal.
-3. Ejecuta `npm install` para instalar todas las dependencias.
+3. Ejecuta `npm install` para instalar todas las dependencias. (no es necesario ya que los modulos vienen en la carpeta Backend)
 4. Inicia el servidor con `node Backend/api.js`.
 
 ## Uso
@@ -65,15 +69,3 @@ Descripción de los principales endpoints de la API:
 - `DELETE /deleteFile/:fileName`: Elimina el archivo especificado.
 - `POST /createDir`: Crea un nuevo directorio.
 - `DELETE /deleteDir/:dirName`: Elimina el directorio especificado y su contenido.
-
-## Contribuciones
-
-Instrucciones para contribuir al proyecto.
-
-## Licencia
-
-Información sobre la licencia del proyecto, por ejemplo, MIT.
-
----
-
-Para expandir esta documentación, debes incluir detalles específicos de cómo se deben usar tus endpoints, cómo se manejan los errores, cómo se debe configurar el entorno para el desarrollo, etc. La documentación debe ser mantenida y actualizada junto con los cambios en el código para que siempre refleje el estado actual del proyecto.
