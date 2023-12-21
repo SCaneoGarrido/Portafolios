@@ -33,5 +33,5 @@ Proximas funcionalidades:
 ## Tecnologías
 Este proyecto utiliza tecnologías como [JavaScript/CSS/HTML/GIT], [/NodeJs/Express.js/MongoDB] Aun estoy desarrollando este proyecto por lo que aun no esta funcional al 100%.
 
-Estoy trabajando en expandir mi portafolio con más proyectos que demuestren mis habilidades en [front-end, back-end]. Mantente atento a las actualizaciones y los nuevos repositorios que se agregarán próximamente.
+Estoy trabajando en expandir mi portafolio con más proyectos que demuestren mis habilidades en [front-end, back-end].
 
