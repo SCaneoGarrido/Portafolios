@@ -21,7 +21,7 @@ Local Cloud Drive es una aplicación de almacenamiento en la nube personal que p
 - Edición de archivos de texto
 - Visualización de archivos PDF ( aun no esta optimizado para dispositivos móviles )
 - Website responsivo para dispositivos móviles
-- 
+
 ## Tecnologías Utilizadas
 - **Frontend**: HTML, CSS, JavaScript.
 - **Backend**: Node.js, Express.js.
