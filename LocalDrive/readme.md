@@ -15,7 +15,6 @@ Local Cloud Drive es una aplicación de almacenamiento en la nube personal que p
 - Interfaz de usuario web para la gestión de archivos.
 
 ## Funcionalidades Futuras:
--  Edición de documentos office (word, pdf, etc)
 -  Mejora de interfaz para dispositivos móviles.
  
 ## Funcionalidades añadidas:
